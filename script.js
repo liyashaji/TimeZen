@@ -8,9 +8,15 @@ const startStopButton = document.getElementById('start-stop');
 const resetButton = document.getElementById('reset');
 const wallpaperSelect = document.getElementById('wallpaper');
 
+document.addEventListener('DOMContentLoaded', initialize);
 startStopButton.addEventListener('click', startStopTimer);
 resetButton.addEventListener('click', resetTimer);
 wallpaperSelect.addEventListener('change', changeWallpaper);
+
+function initialize() {
+    setDefaultWallpaper('image2');  
+    updateDisplay();
+}
 
 function updateDisplay() {
     timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
@@ -42,7 +48,7 @@ function updateTimer() {
             clearInterval(timer);
             isRunning = false;
             startStopButton.textContent = 'Start';
-            // Optionally, add a break timer here
+            // add break timer code too!
         } else {
             minutes--;
             seconds = 59;
@@ -55,9 +61,18 @@ function updateTimer() {
 
 function changeWallpaper() {
     const selectedWallpaper = wallpaperSelect.value;
-    if (selectedWallpaper === 'default') {
+    updateBackground(selectedWallpaper);
+}
+
+function setDefaultWallpaper(defaultWallpaper) {
+    wallpaperSelect.value = defaultWallpaper;  
+    updateBackground(defaultWallpaper);
+}
+
+function updateBackground(imageName) {
+    if (imageName === 'default') {
         document.body.style.backgroundImage = 'none';
     } else {
-        document.body.style.backgroundImage = `url('images/${selectedWallpaper}.jpg')`;
+        document.body.style.backgroundImage = `url('images/${imageName}.jpg')`;
     }
 }
